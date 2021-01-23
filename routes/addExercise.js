@@ -1,4 +1,5 @@
 const express = require('express')
+const moment = require('moment')
 const router = express.Router()
 
 const User = require('../models/User')
@@ -14,7 +15,7 @@ router.post('/', async (req, res) => {
       username: user.username,
       description: newExercise.description,
       duration: newExercise.duration,
-      date: newExercise.date
+      date: moment(newExercise.date + 1).format('dddd MMMM DD YYYY')
     })
   } catch (err) {
     console.error(err.message)
