@@ -13,7 +13,15 @@ router.get('/', async (req, res) => {
 
     if (!user) return res.status(404).json({ msg: 'User was not found' })
 
-    const exercises = await Exercise.find({ user: req.query.userId }).select('description duration date -_id')
+    const { from, to, limit } = req.query
+
+    const exercises = await Exercise.find({ 
+      user: req.query.userId, 
+      date: { 
+        $gte: from || new Date(1),
+        $lte: to || Date.now()
+      }
+    }).limit(+limit || 0)
     
     const exerciseLog = exercises.map(exercise => ({
       description: exercise.description,
