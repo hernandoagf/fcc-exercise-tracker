@@ -20,7 +20,7 @@ app.use(express.json())
 app.use('/api/exercise/new-user', newUser)
 app.use('/api/exercise/users', users)
 app.use('/api/exercise/add', addExercise)
-app.use('/api/exercise/log/', listExercises)
+app.use('/api/exercise/log', listExercises)
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')

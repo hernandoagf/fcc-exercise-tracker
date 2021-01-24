@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
       username: user.username,
       description: newExercise.description,
       duration: newExercise.duration,
-      date: moment(newExercise.date + 1).format('dddd MMMM DD YYYY')
+      date: moment(newExercise.date).format('dddd MMMM DD YYYY')
     })
   } catch (err) {
     console.error(err.message)
