@@ -7,15 +7,22 @@ const Exercise = require('../models/Exercise')
 
 router.post('/', async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.body.user })
-    const newExercise = await Exercise.create(req.body)
+    const user = await User.findOne({ _id: req.body.userId })
+
+    if (!user) return res.status(404).json({ msg: 'User does not exist' })
+    const newExercise = await Exercise.create({
+      ...req.body,
+      user: req.body.userId,
+      duration: +req.body.duration,
+      date: req.body.date === '' ? Date.now() : req.body.date
+    })
 
     res.status(201).json({
       _id: user._id,
       username: user.username,
-      description: newExercise.description,
+      date: moment(newExercise.date).format('ddd MMM DD YYYY'),
       duration: newExercise.duration,
-      date: moment(newExercise.date).format('dddd MMMM DD YYYY')
+      description: newExercise.description
     })
   } catch (err) {
     console.error(err.message)
