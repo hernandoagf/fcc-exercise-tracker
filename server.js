@@ -22,11 +22,9 @@ app.use('/api/exercise/users', users)
 app.use('/api/exercise/add', addExercise)
 app.use('/api/exercise/log', listExercises)
 
-// app.get('/', (req, res) => {
-//   res.sendFile(__dirname + '/views/index.html')
-// });
-
-app.use(express.static('./views'))
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/views/index.html')
+});
 
 const listener = app.listen(process.env.PORT || 5000, () => {
   console.log('Your app is listening on port ' + listener.address().port)

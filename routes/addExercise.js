@@ -8,8 +8,8 @@ const Exercise = require('../models/Exercise')
 router.post('/', async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.body.userId })
+    if (!user) return res.status(404).json({ msg: 'User not found' })
 
-    if (!user) return res.status(404).json({ msg: 'User does not exist' })
     const newExercise = await Exercise.create({
       ...req.body,
       user: req.body.userId,
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
     res.status(201).json({
       _id: user._id,
       username: user.username,
-      date: moment(newExercise.date).format('ddd MMM DD YYYY'),
+      date: moment.utc(newExercise.date).format('ddd MMM DD YYYY'),
       duration: newExercise.duration,
       description: newExercise.description
     })
